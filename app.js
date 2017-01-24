@@ -5,13 +5,26 @@ class MessageList extends React.Component {
   }
 
   render() {
-    const str = 'This is just a variable'
     // We can use curly braces to embed expressions into our JSX. The contents of the braces
     // are evaluated then added to the transpiled JSX.
+
+    // You can use all of the methods you're familiar with to create JSX so here we can create
+    // an array of list items based on the passed down list of messages with map.
+
+    // To help with performance React wants lists of elements to have a unique identifier set
+    // as the "key" property. Here we'll use the index.
+    const messageListItems = this.props.messages.map((message, index) => {
+      return <li key={index}>{message}</li>
+    })
+
+    // Props passed in are available to us here on this.props. A given value is on the props
+    // object via a key name that corresponds to what is set as an element property in the
+    // JSX of any other component that includes this component.
+
+    // React will automatically expand an array of JSX elements.
     return (
       <ul>
-        <li>LISTTT</li>
-        <li>{str}</li>
+        {messageListItems}
       </ul>
     )
   }
@@ -24,20 +37,28 @@ class TopComponent extends React.Component {
   // This is how React passes down props.
   constructor(props) {
     super(props)
+    // Set the initial state of a component in the constructor. State is immutable which means
+    // it cannot be directly changed from here on out. Only overwritten using setState.
+    this.state = {
+      messages: ['message-one', 'message-two', 'message-three']
+    }
   }
 
-  // Every component has to have a render method which returns only a single element. In this
-  // case we're returning an H1 made with JSX.
+  // Every component has to have a render method which returns only a single element.
   render() {
     // JSX is a syntax extenstion for JavaScript. It looks like HTML but it isn't exactly.
     // JSX gets transpiled by Babel to calls to React.CreateElement.
 
     // Only a single element can be returned. You can have multiple but you have to nest them
     // inside of something.
+
+    // Data gets passed from component to component via props. You set them like you would any
+    // HTML property. The data set here as a prop becomes available to that component. Here we
+    // pass down the array of messages set to this.state.
     return (
       <div>
         <h1>HIIIII</h1>
-        <MessageList />
+        <MessageList messages={this.state.messages}/>
       </div>)
   }
 }
