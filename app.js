@@ -44,9 +44,11 @@ class MessageForm extends React.Component {
   }
 
   // set the handler here on the property onSubmit.
+
+  // By using the passed in method we can update the parent component's state.
   render() {
     return (
-      <form onSubmit={this.formHandleSubmit}>
+      <form onSubmit={this.props.handleSubmit}>
         <input type="text" placeholder="New Message" name="message"></input>
         <input type="submit"></input>
       </form>
@@ -62,9 +64,23 @@ class TopComponent extends React.Component {
     super(props)
     // Set the initial state of a component in the constructor. State is immutable which means
     // it cannot be directly changed from here on out. Only overwritten using setState.
+
+    // Once we pass down our function isn't exectuted as a property of this component. that
+    // means that the property of 'this' will change. In order to make sure that 'this' is
+    // always a reference to this component we bind it.
+    this.addMessage = this.addMessage.bind(this)
     this.state = {
       messages: ['message-one', 'message-two', 'message-three']
     }
+  }
+  addMessage(e) {
+    // setState is a method on the component that updates the state of the component.
+    // Changes to the state trigger re-renders. Be aware that setState is asynchronous.
+    // It can optionally be passed a callback, but changes to state are better handled
+    // in the lifecycle methods of the component.
+    this.setState({messages: [...this.state.messages, e.target.message.value]})
+
+    e.target.message.value = ''
   }
 
   // Every component has to have a render method which returns only a single element.
@@ -78,11 +94,14 @@ class TopComponent extends React.Component {
     // Data gets passed from component to component via props. You set them like you would any
     // HTML property. The data set here as a prop becomes available to that component. Here we
     // pass down the array of messages set to this.state.
+
+    // For a child component to interact with the state of the parent component the functionality
+    // has to be passed down to the child component via props.
     return (
       <div>
         <h1>HIIIII</h1>
-        <MessageList messages={this.state.messages}/>
-        <MessageForm />
+        <MessageList messages={this.state.messages} />
+        <MessageForm handleSubmit={this.addMessage} />
       </div>)
   }
 }
