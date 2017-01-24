@@ -7,36 +7,26 @@ class TopComponent extends React.Component {
       size: 20,
       className: 'classic'
     }
-    this.handleTextInput = this.handleTextInput.bind(this)
-    this.handleSlider = this.handleSlider.bind(this)
-    this.handleSelect = this.handleSelect.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleTextInput(e) {
-    let message = e.target.value
-    this.setState({...this.state, message})
-  }
-
-  handleSlider(e) {
-    let size = Number(e.target.value)
-    this.setState({...this.state, size})
-  }
-
-  handleSelect(e) {
-    let className = e.target.value
-    this.setState({...this.state, className})
+  handleChange(e) {
+    let {name, value} = e.target
+    value = name === 'size' ? Number(value) : value
+    this.setState({[name]: value})
   }
 
   render() {
-    const options = ['modern', 'classic']
+    const options = ['classic', 'modern']
     return (
       <div>
-        <input type="text" name="message" onChange={this.handleTextInput} autoComplete="off"></input>
-        <input type="range" max="40" min="15" onChange={this.handleSlider}></input>
-        <select onChange={this.handleSelect}>
-          <option value="classic">Classic</option>
-          <option value="modern">Modern</option>
-        </select>
+        <form onChange={this.handleChange}>
+          <input type="text" name="message" onChange={this.handleTextInput} autoComplete="off"></input>
+          <input type="range" name="size" max="40" min="15" onChange={this.handleSlider}></input>
+          <select name="className" onChange={this.handleSelect}>
+            {options.map((c, i) => (<option key={i} value={c}>{c}</option>))}
+          </select>
+        </form>
         <h1 className={this.state.className} style={{fontSize: this.state.size}}>{this.state.message}</h1>
       </div>
     )
