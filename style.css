@@ -1,0 +1,13 @@
+input, select {
+  margin-left: 20px
+}
+
+.classic {
+  color: blue;
+  font-family: 'Times New Roman', Times, serif
+}
+
+.modern {
+  color: red;
+  font-family: Arial, Helvetica, sans-serif
+}
