@@ -30,6 +30,29 @@ class MessageList extends React.Component {
   }
 }
 
+class MessageForm extends React.Component {
+  constructor (props) {
+    super(props)
+  }
+  // We can set other methods to our component to use inside the component itself
+  // event handlers get passed the event object here like anywhere else so we can
+  // interact with it in our handler.
+  formHandleSubmit(e) {
+    e.preventDefault()
+    console.log(e.target.message.value)
+    e.target.message.value = ''
+  }
+
+  // set the handler here on the property onSubmit.
+  render() {
+    return (
+      <form onSubmit={this.formHandleSubmit}>
+        <input type="text" placeholder="New Message" name="message"></input>
+        <input type="submit"></input>
+      </form>
+    )
+  }
+}
 // React has a property Component which is a class. We make our components by extending this
 // class. The name has to be capitalized it's how React knows the difference between an HTML
 // element and one you created.
@@ -59,6 +82,7 @@ class TopComponent extends React.Component {
       <div>
         <h1>HIIIII</h1>
         <MessageList messages={this.state.messages}/>
+        <MessageForm />
       </div>)
   }
 }
